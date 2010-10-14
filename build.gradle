@@ -1,0 +1,28 @@
+apply plugin: 'scala'
+apply plugin: 'eclipse'
+
+
+repositories {
+    mavenCentral()
+    mavenRepo urls: 'http://scala-tools.org/repo-releases/'
+}
+
+dependencies {
+    // Libraries needed to run the scala tools
+    scalaTools 'org.scala-lang:scala-compiler:2.8.0'
+    scalaTools 'org.scala-lang:scala-library:2.8.0'
+
+    // Libraries needed for scala api
+    compile 'org.scala-lang:scala-library:2.8.0'
+    testCompile 'org.scala-tools.testing:specs_2.8.0:1.6.5'
+    testCompile 'junit:junit:4.7'
+}
+task "create-scala-dirs" << {
+   sourceSets.all*.resources.srcDirs*.each { it.mkdirs() }
+   sourceSets.all*.scala.srcDirs*.each { it.mkdirs() }
+}
+
+task "create-dirs"(dependsOn:"create-scala-dirs") << {
+   sourceSets.all*.java.srcDirs*.each { it.mkdirs() }
+}
+
